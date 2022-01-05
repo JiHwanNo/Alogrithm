@@ -1,7 +1,8 @@
 #pragma once
 #include <Windows.h>
-#include "Type.h"
-enum  class ConsoledColor
+#include "Types.h"
+
+enum  class ConsoleColor
 {
 	BLACK = 0,
 	RED = FOREGROUND_RED,
@@ -15,7 +16,7 @@ class ConsoleHelper
 {
 public :
 	static void SetCursorPosition(int32 x, int32 y);
-	static void SetCursorColor(ConsoledColor color);
+	static void SetCursorColor(ConsoleColor color);
 	static void ShowConsoleCursor(bool flag);
 };
 
