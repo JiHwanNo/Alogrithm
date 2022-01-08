@@ -1,5 +1,4 @@
 ﻿  Maze.cpp
-  pch.cpp
   Board.cpp
   ConsoleHelper.cpp
   Player.cpp
