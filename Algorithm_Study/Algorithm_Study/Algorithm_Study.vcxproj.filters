@@ -20,5 +20,8 @@
     <ClCompile Include="Vector_Algorithm.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="List.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
