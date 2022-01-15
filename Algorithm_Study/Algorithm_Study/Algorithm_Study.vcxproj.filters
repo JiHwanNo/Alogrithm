@@ -23,5 +23,11 @@
     <ClCompile Include="List.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="Stack.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Queue.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
