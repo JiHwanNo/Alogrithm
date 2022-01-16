@@ -1,13 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <stack>
-#include <list>
-#include <queue>
 using namespace std;
 
 void CreateGraph_1()
 {
-
 	struct Vertex
 	{
 		vector<Vertex*> edges;
@@ -18,20 +14,18 @@ void CreateGraph_1()
 	v.resize(6); // 정점의 갯수는 6
 
 	v[0].edges.push_back(&v[1]);
-	v[0].edges.push_back(&v[2]);
+	v[0].edges.push_back(&v[3]);
+	v[1].edges.push_back(&v[0]);
 	v[1].edges.push_back(&v[2]);
 	v[1].edges.push_back(&v[3]);
-	v[2].edges.push_back(&v[4]);
-	v[3].edges.push_back(&v[6]);
-	v[4].edges.push_back(&v[5]);
-	v[4].edges.push_back(&v[7]);
-	v[4].edges.push_back(&v[6]);
-	v[6].edges.push_back(&v[8]);
+	v[3].edges.push_back(&v[4]);
+	v[5].edges.push_back(&v[4]);
 
 	// Q)  0 -> 3번 정점이 연결되어 있나요?
 	bool connected = false;
 	for (Vertex* edge : v[0].edges)
 	{
+		cout << edge << endl;
 		if (edge == &v[3])
 		{
 			connected = true;
@@ -53,6 +47,7 @@ void CreateGraph_2()
 	bool connected = false;
 	for (int vertex : adjacent[0])
 	{
+		cout << vertex << endl;
 		if (vertex == 3)
 		{
 			connected = true;
@@ -94,5 +89,23 @@ void CreateGraph_3()
 }
 int main()
 {
-	CreateGraph_1();
+	//CreateGraph_1(); 
+	//CreateGraph_2();
+
+	int test[7][7] = 
+	{
+	{ 0,1,2,3,4,5,6 },
+	{ 1,1,2,3,4,5,6 },
+	{ 1,2,3,3,4,5,6 },
+	{ 1,2,3,4,4,5,6 },
+	{ 1,2,3,4,5,6,6 },
+	{ 1,2,3,4,5,6,7 },
+	{ 9,2,3,4,5,6,7 } 
+	};
+
+	for (int te : test[6])
+	{
+		cout << te << endl;
+	}
+
 }
