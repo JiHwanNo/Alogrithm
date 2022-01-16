@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Board.h"
-
+#include <stack>
 void Player::Init(Board* board)
 {
 	_pos = board->GetEnterPos();
@@ -44,25 +44,35 @@ void Player::Init(Board* board)
 		else //3 구현
 		{
 			_dir = (_dir + 1) % DIR_COUNT;
-		/*	switch (_dir)
-			{
-			case DIR_UP:
-				_dir = DIR_LEFT;
-					break;
-			case DIR_LEFT:
-				_dir = DIR_DOWN;
-				break;
-			case DIR_DOWN:
-				_dir = DIR_RIGHT;
-				break;
-			case DIR_RIGHT:
-				_dir = DIR_UP;
-				break;
-			default:
-				break;
-			}*/
 		}
 	}
+	// 경로 설정이 끝났다.
+
+	// 경로를 stack에 쌓는다.
+	stack<Pos> s;
+	for (int i = 0; i < _path.size()-1; i++)
+	{
+		if (s.empty() == false && s.top() == _path[i + 1])
+			s.pop();
+		else
+			s.push(_path[i]);
+	}
+
+	if (_path.empty() == false)
+		s.push(_path.back());
+
+	// stack은 기본적으로 후입선출이므로 vector에 값을 넣어주고
+	vector<Pos> path;
+	while (s.empty() == false)
+	{
+		path.push_back(s.top());
+		s.pop();
+	}
+	// 처음과 끝을 뒤짚어준다.
+	reverse(path.begin(), path.end());
+
+	_path = path;
+
 }
 
 void Player::Update(uint64 deltaTick)

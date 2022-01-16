@@ -1,6 +1,3 @@
-﻿  Maze.cpp
-  Board.cpp
-  ConsoleHelper.cpp
-  Player.cpp
-  Generating Code...
+﻿  Player.cpp
+C:\Users\lg\Documents\GitHub\Alogrithm\Algorithm_Study\Maze\Player.cpp(53,20): warning C4018: '<': signed/unsigned mismatch
   Maze.vcxproj -> C:\Users\lg\Documents\GitHub\Alogrithm\Algorithm_Study\Debug\Maze.exe
