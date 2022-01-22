@@ -29,5 +29,8 @@
     <ClCompile Include="Queue.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="Graph_Basic.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
