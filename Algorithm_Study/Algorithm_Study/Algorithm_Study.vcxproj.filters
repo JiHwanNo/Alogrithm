@@ -32,5 +32,8 @@
     <ClCompile Include="Graph_Basic.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="DFS_DepthFirstSearch.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

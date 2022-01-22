@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 // DFS (Depth First Search) 깊이 우선 탐색
@@ -14,7 +15,7 @@ struct Vertex
 
 vector<Vertex> vertices;
 vector<vector<int>> adjacent;
-vector<bool> visited;
+vector<bool> discoversd;
 void CreateGraph()
 {
 	vertices.resize(6);
@@ -28,21 +29,50 @@ void CreateGraph()
 	adjacent[5].push_back(4);
 }
 
-void Dfs(int here)
+void Bfs(int here)
 {
-	visited[here] = true;
-	cout << "visited : " << here << endl;
+	//누구에 의해 발견 되었나?
+	vector<int> parent(6, -1);
+	//시작점에서 얼만큼 떨어져 있나?
+	vector<int> distance(6, -1);
 
-	//인접 리스트 version
-	//모든 인접 정점을 순회한다.
-	for (int i = 0; i < adjacent[here].size(); i++)
+	queue<int> q;
+	q.push(here);
+	discoversd[here] = true;
+
+
+	parent[here] = here;
+	distance[here] = 0;
+
+	while (q.empty() == false)
 	{
-		int there = adjacent[here][i];
-		if (visited[there] == false)
+		here = q.front();
+		q.pop();
+
+		cout << "Visited : " << here << endl;
+		
+
+		for (int there : adjacent[here])
 		{
-			Dfs(there);
+			if (discoversd[there])
+				continue;
+
+			q.push(there);
+			discoversd[there] = true;
+
+			parent[there] = here;
+			distance[there] = distance[here] + 1;
 		}
 	}
+
+	int i = 3;
+}
+
+void BfsAll()
+{
+	for (int i = 0; i < 6; i++)
+		if (discoversd[i] == false)
+			Bfs(i);
 }
 void CreateGraph2()
 {
@@ -59,38 +89,52 @@ void CreateGraph2()
 		{0,0,0,0,1,0},
 	};
 }
-//DFS
-
-void Dfs2(int here)
+void Bfs2(int here)
 {
-	visited[here] = true;
-	cout << "visited : " << here << endl;
+	//누구에 의해 발견 되었나?
+	vector<int> parent(6, -1);
+	//시작점에서 얼만큼 떨어져 있나?
+	vector<int> distance(6, -1);
 
-	for (int i = 0; i < adjacent[here].size(); i++)
+	queue<int> q;
+	q.push(here);
+	discoversd[here] = true;
+
+
+	parent[here] = here;
+	distance[here] = 0;
+
+	while (q.empty() == false)
 	{
-		if (adjacent[here][i] == 0)
-			continue;
+		here = q.front();
+		q.pop();
 
-		if (visited[i] == false)
-			Dfs2(i);
-	}
-}
+		cout << "Visited : " << here << endl;
 
-void DfsAll()
-{
-	for (int i = 0; i < 6; i++)
-	{
-		if (visited[i] == false)
-			Dfs(i);
+
+		for (int there = 0; there <6; there ++)
+		{
+			if (adjacent[here][there] == 0)
+				continue;
+			if (discoversd[there])
+				continue;
+
+			q.push(there);
+			discoversd[there] = true;
+
+			parent[there] = here;
+			distance[there] = distance[here] + 1;
+		}
 	}
+
+	int i = 3;
 }
 
 int main()
 {
-	CreateGraph2();
+	CreateGraph();
 
-	visited = vector<bool>(6, false);
+	discoversd = vector<bool>(6, false);
 
-	Dfs2(0);
-	//DfsAll();
+	Bfs(0);
 }
