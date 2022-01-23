@@ -15,8 +15,11 @@ public:
 
 	void SetPos(Pos pos) { _pos = pos; }
 	Pos GetPos() { return _pos; }
-
 	bool IsGo(Pos pos);
+
+private:
+	void RightHand();
+	void Bfs();
 private:
 	Pos _pos = {};
 	int32 _dir = DIR_UP;

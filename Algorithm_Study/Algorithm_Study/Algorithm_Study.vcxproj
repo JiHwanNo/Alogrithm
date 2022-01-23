@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BFS_BreadthFirstSearch.cpp" />
     <ClCompile Include="DFS_DepthFirstSearch.cpp" />
     <ClCompile Include="Graph_Basic.cpp" />
     <ClCompile Include="List.cpp" />

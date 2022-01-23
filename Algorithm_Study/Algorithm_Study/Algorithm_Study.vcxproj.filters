@@ -35,5 +35,8 @@
     <ClCompile Include="DFS_DepthFirstSearch.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="BFS_BreadthFirstSearch.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
