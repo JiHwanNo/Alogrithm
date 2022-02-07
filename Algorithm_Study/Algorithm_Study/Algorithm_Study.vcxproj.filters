@@ -38,5 +38,11 @@
     <ClCompile Include="BFS_BreadthFirstSearch.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="Dijikstra.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
