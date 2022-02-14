@@ -44,5 +44,8 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="PriorityQueue.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
