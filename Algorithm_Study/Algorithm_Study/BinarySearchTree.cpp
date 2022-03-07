@@ -26,6 +26,15 @@ void SetCursorPosition(int x, int y)
 	::SetConsoleCursorPosition(output, pos);
 }
 
+void ShowConsoleCursor(bool flag)
+{
+	HANDLE output = ::GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursorInfo;
+	::GetConsoleCursorInfo(output, &cursorInfo);
+	cursorInfo.bVisible = flag;
+	::SetConsoleCursorInfo(output, &cursorInfo);
+}
+
 BinarySearchTree::BinarySearchTree()
 {
 	_nil = new Node();
@@ -35,6 +44,13 @@ BinarySearchTree::BinarySearchTree()
 BinarySearchTree::~BinarySearchTree()
 {
 	delete _nil;
+}
+
+void BinarySearchTree::Print()
+{
+	::system("cls");
+	ShowConsoleCursor(false);
+	Print(_root, 10, 0);
 }
 
 void BinarySearchTree::Print(Node* node, int x, int y)
@@ -239,10 +255,6 @@ void BinarySearchTree::InsertFixup(Node* node)
 		_root->color = Color::Black;
 }
 
-//3가지 경우의수
-//1. 지우는 노드에 자식이 없는 경우
-//2. 지우는 노드에 자식이 1개만 있는경우.
-//3. 지누은 노드에 자식이 양 방향 있는 경우.
 void BinarySearchTree::Delete(int key)
 {
 	Node* deleteNode = Search(_root, key);
@@ -252,20 +264,31 @@ void BinarySearchTree::Delete(int key)
 void BinarySearchTree::Delete(Node* node)
 {
 	//지울 Node가 없는 경우.
-	if (node == nullptr)
+	if (node == _nil)
 		return;
 
-	//왼쪽 자식이 없을 경우. 
-	//만약 오른쪽 노드도 없을 경우, 오른쪽 노드는 nullptr이므로 Replace(node, nullptr)로 이루어지게된다.
-	//그러므로 자식이 없을 경우와 왼쪽 자식이 없을 경우 2가지를 동시에 실행할 수 있다.
-	if (node->left == nullptr)
+	if (node->left == _nil)
+	{
+		Color color = node->color;
+		Node* right = node->right;
 		Replace(node, node->right);
-	// 오른쪽 자식 이 없을 경우.
-	else if (node->right == nullptr)
+
+		if (color == Color::Black)
+			DeleteFixup(right);
+
+	}
+	else if (node->right == _nil)
+	{
+		Color color = node->color;
+		Node* right = node->left;
+
 		Replace(node, node->left);
+		if (color == Color::Black)
+			DeleteFixup(right);
+	}
 	else 
 	{
-		// 양쪽에 있는 경우. 지우고 싶은 Node의 다음 순번을 찾아 서로 값을 바꾼 후, 지워준다.
+		// 양쪽에 있는 경우.
 		Node* next = Next(node);
 		node->key = next->key;
 		Delete(next);
@@ -273,11 +296,134 @@ void BinarySearchTree::Delete(Node* node)
 
 }
 
+void BinarySearchTree::DeleteFixup(Node* node)
+{
+	Node* x = node;
+
+	while (x != _root && x->color == Color::Black)
+	{
+		if (x == x->parent->left)
+		{
+			//case 3번	DB의 sibling 노드가 Red일 경우
+			//s = black, p = red (s <-> p 색상 교환)
+			//DB 방향으로 rotage(p)
+
+			Node* s = x->parent->right;
+			if (s->color == Color::Red)
+			{
+				s->color = Color::Black;
+				x->parent->color = Color::Red;
+
+				LeftRotate(x->parent); 
+				s = x->parent->right;
+			}
+
+			//case 4번 DB의 sibling 노드가 Black && sibling의 양쪽 자식도 Black
+			//추가 Black을 parent에게 이전
+			//p가 Red이면 Black 됨
+			//p가 Black이면 DB 됨
+			//s = red
+			//p를 대상으로 알고리즘 이어서 실행(DB가 여전히 존재하면)
+
+			if (s->left->color == Color::Black && s->right->color == Color::Black)
+			{
+				s->color = Color::Red;
+				x = x->parent; // p를 대상으로 whild문을 돌면서 나머지 부분을 check 해준다.
+			}
+			else
+			{
+				//case 5번 DB의 sibling 노드가 Black && sibling의 near child = red, far child = black
+				//s < ->near 색상 교환
+				//far 방향으로 rotate(s)
+
+				//			[p]
+				//[x(DB)]			 [s(B)]
+				//				[near(R)][far(B)]
+				//------------------------------------
+				//			[p]
+				//[x(DB)]			 [s(R)]
+				//				[near(B)][far(B)]
+				//------------------------------------
+				//			[p]
+				//[x(DB)]			 [near(B)]
+				//							[s(R)]
+				//								[far(B)]
+				if (s->right->color == Color::Black)
+				{
+					s->left->color = Color::Black;
+					s->color = Color::Red;
+					RightRotate(s);
+					s = x->parent->right;
+				}
+
+				//case 6 DB의 sibling 노드가 Black && sibling의 far child = red
+				//p < ->s 색상 교환
+				//far = black
+				//rotate(p) (DB방향으로)
+				//추가 Black 제거
+
+				s->color = x->parent->color;
+				x->parent->color = Color::Black;
+				s->right->color = Color::Black;
+				LeftRotate(x->parent);
+				x = _root;
+			}
+		}
+		else
+		{
+			if (x == x->parent->right)
+			{
+				//case 3번	DB의 sibling 노드가 Red일 경우
+
+				Node* s = x->parent->left;
+				if (s->color == Color::Red)
+				{
+					s->color = Color::Black;
+					x->parent->color = Color::Red;
+
+					RightRotate(x->parent);
+					s = x->parent->right;
+				}
+
+				//case 4번 DB의 sibling 노드가 Black && sibling의 양쪽 자식도 Black
+
+				if (s->right->color == Color::Black && s->left->color == Color::Black)
+				{
+					s->color = Color::Red;
+					x = x->parent; // p를 대상으로 whild문을 돌면서 나머지 부분을 check 해준다.
+				}
+				else
+				{
+					//case 5번 DB의 sibling 노드가 Black && sibling의 near child = red, far child = black
+
+					if (s->left->color == Color::Black)
+					{
+						s->right->color = Color::Black;
+						s->color = Color::Red;
+						LeftRotate(s);
+						s = x->parent->left;
+					}
+
+					//case 6 DB의 sibling 노드가 Black && sibling의 far child = red
+
+					s->color = x->parent->color;
+					x->parent->color = Color::Black;
+					s->left->color = Color::Black;
+					RightRotate(x->parent);
+					x = _root;
+				}
+			}
+		}
+	}
+
+	x->color = Color::Black;
+}
+
 // u 노드에서 v 노드로 교체하는 작업
 void BinarySearchTree::Replace(Node* u, Node* v)
 {
 	// 만약 부모가 없다면 최상단이다.
-	if (u->parent == nullptr)
+	if (u->parent == _nil)
 		_root = v;
 	// u의 부모의 왼쪽 노드가 u일 경우
 	else if (u == u->parent->left)
@@ -285,9 +431,6 @@ void BinarySearchTree::Replace(Node* u, Node* v)
 	else // u의 부모의 오른쪽 노드가 u일 경우
 		u->parent->right = v;
 	//v를 u의 부모와 연결시켜준다.
-	if (v)
-		v->parent = u->parent;
-
 	delete u;
 }
 

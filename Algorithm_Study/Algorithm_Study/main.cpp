@@ -38,6 +38,15 @@ int main()
 	bst.Print();
 	this_thread::sleep_for(1s);
 
+	bst.Delete(40);
+	bst.Print();
+	this_thread::sleep_for(1s);
+
+	bst.Delete(150);
+	bst.Print();
+	this_thread::sleep_for(1s);
+
+	
 	//bst.Print_Inorder();
 	bst.Print();
 }
