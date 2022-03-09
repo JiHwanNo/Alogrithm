@@ -47,14 +47,16 @@
     <ClCompile Include="PriorityQueue.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="BinarySearchTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BinarySearch.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="BinarySearchTree.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BinarySearchTree.h">
+      <Filter>Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

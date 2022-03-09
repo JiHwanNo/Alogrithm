@@ -1,5 +1,2 @@
-﻿  BinarySearchTree.cpp
-  main.cpp
-  Generating Code...
-C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\Algorithm_Study\BinarySearchTree.cpp(85): warning C4715: 'BinarySearchTree::Search': not all control paths return a value
-  Algorithm_Study.vcxproj -> C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\x64\Debug\Algorithm_Study.exe
+﻿  main.cpp
+  Algorithm_Study.vcxproj -> C:\Users\lg\Documents\GitHub\Alogrithm\Algorithm_Study\x64\Debug\Algorithm_Study.exe
