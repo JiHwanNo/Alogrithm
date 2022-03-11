@@ -7,80 +7,122 @@ using namespace std;
 #include <thread>
 // 오늘의 주제 : 정렬
 
-// 1_ 버블 정렬 (Bubble Sort)
-// 가장 처음부터 차례차례 다음 수와 비교하여 정렬한다.
-// 시간 복잡도 (N-1) + (N-2) + (N-3) ... +2+1
-// = O(N^2)
-void BubbleSort(vector<int>& v)
+// 힙 정렬
+//O(Nlog(N))
+void HeapSort(vector<int>& v)
 {
-	const int n = (int)v.size();
+	priority_queue<int, vector<int>,greater<int>> pq;
 
-	for (int i = 0; i < n-1; i++)
+	for (int num : v)
 	{
-		for (int j = 0; j < n-1-i; j++)
-		{
-			if (v[j] > v[j+1])
-			{
-				int temp = v[j];
-				v[j] = v[j + 1];
-				v[j + 1] = temp;
-			}
-		}
+		pq.push(num);
+	}
+
+	v.clear();
+	while (pq.empty() == false)
+	{
+		v.push_back(pq.top());
+		pq.pop();
 	}
 }
 
-//2_ 선택 정렬 (Selection Sort)
-// 모두 확인하여, 정렬할 수를 고르고 정렬해준다.
-// 시간복잡도 O(N^2)
-void SelectionSort(vector<int>& v)
+// 병합 정렬
+// 분할 정복(Divide and Conquer)
+// - 분할(Divide)		문제를 더 단순하게 분할한다.
+// - 정복(Conquer)		분할된 문제를 해결
+// - 결합(Combine)		결과를 취합하여 마무리
+
+// [3][K][7][2][J][4][8][9]			분할한다.
+// [3][K][7][2] [J][4][8][9]		정복한다.
+// [2][3][7][K] [4][8][9][J]		결합한다.
+// [2][3][4][7][8][9][J][K]
+
+// [3][K][7][2][J][4][8][9]			8개 * 1
+// [3][K][7][2] [J][4][8][9]		4개 * 2
+// [3][K] [7][2] [J][4] [8][9]		2개 * 4
+// [3] [K] [7] [2] [J] [4] [8] [9]	1개 * 8
+// [3][K] [2][7] [4][J] [8][9]		2개 * 4
+
+
+// O(NlogN)
+void MergeResult(vector<int>& v, int left, int mid, int right)
 {
-	const int n = (int)v.size();
+	// [2][3][7][K] [4][8][9][J]
+
+	int leftIdx = left;
+	int rightIdx = mid + 1;
+
+	vector<int> temp;
+
+	while (leftIdx <= mid && rightIdx <= right)
+	{
+		if (v[leftIdx] <= v[rightIdx])
+		{
+			temp.push_back(v[leftIdx]);
+			leftIdx++;
+		}
+		else
+		{
+			temp.push_back(v[rightIdx]);
+			rightIdx++;
+		}
+
+	}
+
+	// 왼쪽이 먼저 끝났으면, 오른쪽 나머지 데이터 복사
+	if (leftIdx > mid)
+	{
+		while (rightIdx <= right)
+		{
+			temp.push_back(v[rightIdx]);
+			rightIdx++;
+		}
+	}
+	else
+	{
+		while (leftIdx <= mid)
+		{
+			temp.push_back(v[leftIdx]);
+			leftIdx++;
+		}
+	}
 	
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < temp.size(); i++)
 	{
-		int bestIDX = i;
-		for (int j = i+1; j < n; j++)
-		{
-			if (v[j] < v[bestIDX])
-				bestIDX = j;
-		}
-
-		int temp = v[i];
-		v[i] = v[bestIDX];
-		v[bestIDX] = temp;
+		// 시작점이 left이라서
+		v[left + i] = temp[i];
 	}
 }
 
-// 3_ 삽입 정렬 (Insertion Sort)
-// 기존의 형태에서 하나하나 뽑아서 정렬된 vector에 넣어준다.
-// 시간복잡도 O(N^2)
-void InsertionSort(vector<int>& v)
+
+
+
+void MergeSort(vector<int>& v, int left, int right)
 {
-	const int n = (int)v.size();
+	if (left >= right)
+		return;
 
-	for (int i = 1; i < n; i++)
-	{
-		int insertData = v[i];
-		int j;
+	int mid = (left + right) / 2;
 
-		for (j = i - 1; j >= 0; j++)
-		{
-			if (v[j] > insertData)
-				v[j + 1] = v[j];
-			else
-				break;
-		}
+	MergeSort(v, left, mid);	// 4
+	MergeSort(v, mid+1,right);	// 4
 
-		v[j + 1] = insertData;
-	}
+	//결과를 합친다.
+	MergeResult(v, left, mid, right);
 }
-
 
 int main()
 {
-	vector<int> b{1, 4, 5, 3, 12, 1551, 122, 11};
-	std::sort(b.begin(), b.end());
+	vector<int> b;
 	
-	BubbleSort(b);
+	srand(time(0));
+
+	for (int i = 0; i < 50; i++)
+	{
+		int randValue = rand() % 100;
+		b.push_back(randValue);
+	}
+	
+	MergeSort(b,0,b.size()-1);
 
 }

@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="SortBasic.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Vector_Algorithm.cpp" />

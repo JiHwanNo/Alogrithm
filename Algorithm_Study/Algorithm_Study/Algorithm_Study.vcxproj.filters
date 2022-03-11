@@ -53,6 +53,9 @@
     <ClCompile Include="BinarySearchTree.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="SortBasic.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h">
