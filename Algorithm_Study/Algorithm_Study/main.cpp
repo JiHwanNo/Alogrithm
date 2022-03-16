@@ -5,124 +5,129 @@
 #include <list>
 using namespace std;
 #include <thread>
-// 오늘의 주제 : 정렬
+// 해시 테이블
 
-// 힙 정렬
-//O(Nlog(N))
-void HeapSort(vector<int>& v)
+// map vs hash_map
+
+// map : Red-Black Tree
+// 균형적 이진 트리
+// - 추가/탐색/삭제 O(logN)
+
+// C# dictionary = C++ map (X)
+// C# dictionary = C++ unordered_map
+
+// hash_map(c++11 표준 unordered_map)
+// - 추가/탐색/삭제 O(1)
+
+// 메모리를 내주고 속도를 얻는다.
+// EX) 아파트 우편함
+// [201][202][203][204][205]
+// [101][102][103][104][105]
+
+// 1 ~ 1000 user( userId = 1 ~ 999 )
+// [1][2][3] ... [999] check
+
+// 'hash', 'table'
+// O(1)
+void TestTable()
 {
-	priority_queue<int, vector<int>,greater<int>> pq;
-
-	for (int num : v)
+	struct User
 	{
-		pq.push(num);
-	}
+		int userID = 0;
+		string username;
+	};
 
-	v.clear();
-	while (pq.empty() == false)
-	{
-		v.push_back(pq.top());
-		pq.pop();
-	}
-}
+	vector<User> users;
+	users.resize(1000);
 
-// 병합 정렬
-// 분할 정복(Divide and Conquer)
-// - 분할(Divide)		문제를 더 단순하게 분할한다.
-// - 정복(Conquer)		분할된 문제를 해결
-// - 결합(Combine)		결과를 취합하여 마무리
+	users[777] = User{ 777, "Rookiss" };
 
-// [3][K][7][2][J][4][8][9]			분할한다.
-// [3][K][7][2] [J][4][8][9]		정복한다.
-// [2][3][7][K] [4][8][9][J]		결합한다.
-// [2][3][4][7][8][9][J][K]
+	string name = users[777].username;
+	cout << name << endl;
 
-// [3][K][7][2][J][4][8][9]			8개 * 1
-// [3][K][7][2] [J][4][8][9]		4개 * 2
-// [3][K] [7][2] [J][4] [8][9]		2개 * 4
-// [3] [K] [7] [2] [J] [4] [8] [9]	1개 * 8
-// [3][K] [2][7] [4][J] [8][9]		2개 * 4
-
-
-// O(NlogN)
-void MergeResult(vector<int>& v, int left, int mid, int right)
-{
-	// [2][3][7][K] [4][8][9][J]
-
-	int leftIdx = left;
-	int rightIdx = mid + 1;
-
-	vector<int> temp;
-
-	while (leftIdx <= mid && rightIdx <= right)
-	{
-		if (v[leftIdx] <= v[rightIdx])
-		{
-			temp.push_back(v[leftIdx]);
-			leftIdx++;
-		}
-		else
-		{
-			temp.push_back(v[rightIdx]);
-			rightIdx++;
-		}
-
-	}
-
-	// 왼쪽이 먼저 끝났으면, 오른쪽 나머지 데이터 복사
-	if (leftIdx > mid)
-	{
-		while (rightIdx <= right)
-		{
-			temp.push_back(v[rightIdx]);
-			rightIdx++;
-		}
-	}
-	else
-	{
-		while (leftIdx <= mid)
-		{
-			temp.push_back(v[leftIdx]);
-			leftIdx++;
-		}
-	}
+	// 테이블
+	// 키를 알면, 데이터를 단번에 찾을 수 있다.
 	
-	for (int i = 0; i < temp.size(); i++)
+	// 문제의 상황
+	// int32_max (3억 ~)
+	// 메모리는 무한이 아니다. => hash로 해결을 한다.
+}
+
+// 보안
+// EX) 
+//	id : rookiss + pw : qwer1234
+//	id : rookiss + pw : hash(qwer1234) -> asdlkfjas12341@2141%!#%!#@1asdfj
+//	DB [rookiss][asdlkfjas12341@2141%!#%!#@1asdfj]
+// 비밀번호 찾기 -> 아이디 입력 / 폰 인증 -> 옛 ) 비밀번호는 ~ 현재) 새로운 비밀번호 ~
+
+void TestHash()
+{
+	struct User
 	{
-		// 시작점이 left이라서
-		v[left + i] = temp[i];
+		int userID = 0; // 1~ int32_max
+		string username;
+	};
+
+	vector<User> users;
+	users.resize(1000);
+
+	const int userID = 123456789;
+	int key = (userID % 1000); // hash < 고유번호
+
+	users[key] = User{ userID, "Rookiss" };
+
+	User& user = users[key];
+	if (user.userID == userID)
+	{
+		string name = user.username;
+		cout << name << endl;
+	}
+
+}
+
+	// 충돌 문제 [key값이 동일한 상태]
+	// 123456789
+	// 789
+
+	// 충돌이 발생한 자리를 대신해서 다른 빈자리를 찾아나선다.
+	// - 선형 조사법 (linear probing)
+	// hash(key) + 1 -> hash(key) + 2
+	// - 이차 조사법 (quadratic probing)
+	// hash(key)+1^2 -> hash(key) + 2^2
+	// -etc
+	// 체이닝 - 동일한 값이 있다면 연결리스트를 이용하여 또하나의 배열을 만들어 연결해준다.
+	// 
+
+void TestHashTableChaining()
+{
+	struct User
+	{
+		int userID = 0; // 1~ int32_max
+		string username;
+	};
+
+	vector< vector<User>> users;
+	users.resize(1000);
+
+	const int userID = 123456789;
+	int key = (userID % 1000); // hash < 고유번호
+
+	users[key].push_back(User{ userID, "Rookiss" });
+
+	vector<User>& bucket = users[key];
+	for (User& user : bucket)
+	{
+		if (user.userID == userID)
+		{
+			string name = user.username;
+			cout << name << endl;
+		}
 	}
 }
 
-
-
-
-void MergeSort(vector<int>& v, int left, int right)
-{
-	if (left >= right)
-		return;
-
-	int mid = (left + right) / 2;
-
-	MergeSort(v, left, mid);	// 4
-	MergeSort(v, mid+1,right);	// 4
-
-	//결과를 합친다.
-	MergeResult(v, left, mid, right);
-}
 
 int main()
 {
-	vector<int> b;
+	TestTable();
 	
-	srand(time(0));
-
-	for (int i = 0; i < 50; i++)
-	{
-		int randValue = rand() % 100;
-		b.push_back(randValue);
-	}
-	
-	MergeSort(b,0,b.size()-1);
-
 }

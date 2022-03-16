@@ -1,4 +1,4 @@
 ﻿  main.cpp
-C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\Algorithm_Study\main.cpp(116,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\Algorithm_Study\main.cpp(124,26): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  QuickSort.cpp
+  Generating Code...
   Algorithm_Study.vcxproj -> C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\x64\Debug\Algorithm_Study.exe
