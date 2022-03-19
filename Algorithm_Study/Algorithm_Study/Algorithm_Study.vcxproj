@@ -145,6 +145,7 @@
     <ClCompile Include="DFS_DepthFirstSearch.cpp" />
     <ClCompile Include="Dijikstra.cpp" />
     <ClCompile Include="Graph_Basic.cpp" />
+    <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MergeSort.cpp" />

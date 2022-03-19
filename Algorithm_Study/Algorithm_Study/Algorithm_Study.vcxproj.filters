@@ -62,6 +62,9 @@
     <ClCompile Include="QuickSort.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="HashTable.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h">
