@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "ConsoleHelper.h"
 #include "Player.h"
+#include "DisjointSet.h"
 
 const char* TILE = "■";
 Board::Board()
@@ -48,43 +49,52 @@ void Board::GenerateMap()
 				_tile[y][x] = TileType::EMPTY;
 		}
 	}
+	// 크루셜 알고리즘을 통해, 간선의 비용을 랜덤값으로 지정하면 길이 랜덤으로 나타나게 된다.
 
-	// 홀수에서 랜덤값으로 오른쪽 혹은 아래쪽을 랜덤으로 뚫어주는 작업
+	vector<CostEdge> edges;
+	// edges 후보를 랜덤 cost로 등록한다.
 	for (int32 y = 0; y < _size; y++)
 	{
 		for (int32 x = 0; x < _size; x++)
 		{
 			if (x % 2 == 0 || y % 2 == 0)
 				continue;
-
-			// x축 끝이고 y축이 끝일 경우.
-			if (x == _size - 2 && y == _size - 2)
-				continue;
-
-			// y축만 끝에 다다를 경우
-			if (y == _size - 2)
-			{
-				_tile[y][x + 1] = TileType::EMPTY;
-				continue;
-			}
-			// x축만 끝에 다다를 경우.
-			if (x == _size -2)
-			{
-				_tile[y + 1][x] = TileType::EMPTY;
-				continue;
+			//가로 연결하는 간선 후보
+			if (x < _size - 2)
+			{ 
+				const int32 randValue = ::rand() % 100;
+				edges.push_back(CostEdge{ randValue, Pos{y,x}, Pos{y, x + 2} });
 			}
 
-			const int32 randValue = ::rand() % 2; // 1 혹은 0의 랜덤값 생성.
-			if (randValue ==0)
+			//세로 연결하는 간선 후보
+			if (y < _size - 2)
 			{
-				_tile[y][x+1] = TileType::EMPTY;
+				const int32 randValue = ::rand() % 100;
+				edges.push_back(CostEdge{ randValue, Pos{y,x}, Pos{y+2, x} });
 			}
-			else
-			{
-				_tile[y + 1][x] = TileType::EMPTY;
-			}
-
 		}
+	}
+
+	std::sort(edges.begin(), edges.end());
+
+	DisjointSet sets(_size * _size);
+
+	for (CostEdge& edge : edges)
+	{
+		// 가로 값
+		int u = edge.u.y * _size + edge.u.x;
+		// 세로 값
+		int v = edge.v.y * _size + edge.v.x;
+		// 같은 그룹이면 스킵
+		if (sets.Find(u) == sets.Find(v))
+			continue;
+		// 두 그룹을 합침
+		sets.Merge(u, v);
+
+		// 맵에 적용
+		int y = (edge.u.y + edge.v.y) / 2;
+		int x = (edge.u.x + edge.v.x) / 2;
+		_tile[y][x] = TileType::EMPTY;
 	}
 }
 

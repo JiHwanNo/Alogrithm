@@ -146,9 +146,11 @@
     <ClCompile Include="Dijikstra.cpp" />
     <ClCompile Include="Graph_Basic.cpp" />
     <ClCompile Include="HashTable.cpp" />
+    <ClCompile Include="Kruskal.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MergeSort.cpp" />
+    <ClCompile Include="Minimum Spanning Tree.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QuickSort.cpp" />
