@@ -144,6 +144,7 @@
     <ClCompile Include="BinarySearchTree.cpp" />
     <ClCompile Include="DFS_DepthFirstSearch.cpp" />
     <ClCompile Include="Dijikstra.cpp" />
+    <ClCompile Include="DP.cpp" />
     <ClCompile Include="Graph_Basic.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="Kruskal.cpp" />

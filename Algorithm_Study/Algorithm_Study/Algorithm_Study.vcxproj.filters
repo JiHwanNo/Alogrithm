@@ -71,6 +71,9 @@
     <ClCompile Include="Kruskal.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="DP.cpp">
+      <Filter>Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h">

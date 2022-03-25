@@ -1,4 +1,3 @@
 ﻿  main.cpp
-  QuickSort.cpp
-  Generating Code...
+C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\Algorithm_Study\main.cpp(60,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   Algorithm_Study.vcxproj -> C:\Users\yosulkong6\Documents\GitHub\Alogrithm\Algorithm_Study\x64\Debug\Algorithm_Study.exe
